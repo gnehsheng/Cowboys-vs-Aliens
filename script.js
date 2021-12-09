@@ -1,3 +1,6 @@
+
+let playerState = 'moving'
+
 const canvas = document.getElementById('canvas1')
 const ctx = canvas.getContext('2d')
 const canvas_width = canvas.wdth = 600
@@ -5,9 +8,8 @@ const canvas_height = canvas.height = 600
 
 const playerImage = new Image()
 playerImage.src = 'images/Player Front Sheet.png'
-const spriteWidth = 48
-const spriteHeight = 44
-let playerState = 'shooting'
+const spriteWidth = 240
+const spriteHeight = 220
 
 let gameFrame = 0
 const staggerFrames = 15
