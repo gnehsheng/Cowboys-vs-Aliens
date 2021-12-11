@@ -1,3 +1,4 @@
+/**  @type (HTMLCanvasElement) */
 const canvas = document.getElementById('canvas1')
 const ctx = canvas.getContext('2d')
 canvas.width = 748
@@ -6,17 +7,6 @@ canvas.height = 800
 const keys = []
 
 const player = {
-    x: 200,
-    y: 200,
-    width: 32,
-    height: 48,
-    frameX: 0,
-    frameY: 0,
-    speed: 9,
-    moving: false
-}
-
-const alien = {
     x: 200,
     y: 200,
     width: 32,
@@ -43,6 +33,7 @@ window.addEventListener('keydown', function (e) {
 
 window.addEventListener('keyup', function (e) {
     delete keys[e.keyCode]
+    console.log(e.keyCode)
     player.moving = false
 })
 
@@ -57,7 +48,7 @@ function movePlayer() {
         player.frameY = 1
         player.moving = true
     }
-    if (keys[40] && player.x < canvas.height - player.height) {
+    if (keys[40] && player.y < canvas.height - player.height) {
         player.y += player.speed
         player.frameY = 0
         player.moving = true
@@ -95,4 +86,3 @@ function animate() {
 
 startAnimation(40)
 
-//ALIEN ANIMATION & MOVEMENT
