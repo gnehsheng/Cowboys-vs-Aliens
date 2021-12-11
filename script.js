@@ -62,16 +62,13 @@ function handlePlayerFrame() {
     if (player.frameX < 3 && player.moving) player.frameX++
     else player.frameX = 0
 }
-
 let fps, fpsInterval, startTime, now, then, elapsed
-
 function startAnimation(fps) {
     fpsInterval = 1000 / fps
     then = Date.now()
     startTime = then
     animate()
 }
-
 function animate() {
     requestAnimationFrame(animate)
     now = Date.now()
