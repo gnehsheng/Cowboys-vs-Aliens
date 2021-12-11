@@ -16,10 +16,21 @@ const player = {
     moving: false
 }
 
+const alien = {
+    x: 200,
+    y: 200,
+    width: 32,
+    height: 48,
+    frameX: 0,
+    frameY: 0,
+    speed: 9,
+    moving: false
+}
+
+//PLAYER SPRITE & MOVEMENT
 const playerSprite = new Image()
 playerSprite.src = 'images/indianajones.png'
-const background = new Image()
-background.src = 'images/rHZox6.png'
+
 
 function drawSprite(img, sX, sY, sW, sH, dX, dY, dW, dH) {
     ctx.drawImage(img, sX, sY, sW, sH, dX, dY, dW, dH)
@@ -76,7 +87,6 @@ function animate() {
     if (elapsed > fpsInterval) {
         then = now - (elapsed % fpsInterval)
         ctx.clearRect(0, 0, canvas.width, canvas.height)
-        ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
         drawSprite(playerSprite, player.width * player.frameX, player.height * player.frameY, player.width, player.height, player.x, player.y, player.width, player.height)
         movePlayer()
         handlePlayerFrame()
@@ -84,3 +94,5 @@ function animate() {
 }
 
 startAnimation(40)
+
+//ALIEN ANIMATION & MOVEMENT
