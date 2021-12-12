@@ -8,10 +8,25 @@
 </head>
 
 <body>
+  <div class ="cursor"></div>
+  
+  <script>
+    const cursor = document.querySelector('.cursor')
+    document.addEventListener('mousemove', e => {
+      cursor.setAttribute('style', 'top: '+(e.pageY - 10)+'px; left: '+(e.pageX - 10)+'px;')
+    })
+    document.addEventListener('click', () => {
+      cursor.classList.add('expand');
+      setTimeout(() => {
+        cursor.classList.remove('expand')
+      }, 100)
+    })
+  </script>
+  
   <canvas id="canvas1"></canvas>
-  <script src="script.js"></script>
-  <script src="aliens.js"></script>
 
 </body>
+
+<script src="script.js"></script>
 
 </html>

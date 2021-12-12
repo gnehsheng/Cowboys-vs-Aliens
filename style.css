@@ -1,13 +1,69 @@
-  #canvas1 {
-      image-rendering: -moz-crisp-edges;
-      image-rendering: -webkit-crisp-edges;
-      image-rendering: pixelated;
-      image-rendering: crisp-edges;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 748px;
-      height: 800px;
-      background-image: url('images/rHZox6.png');
+  
+
+  body {
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-crisp-edges;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    margin: 0;
+    height: 100vh;
+    width: 100vh;
+    overflow: hidden;
+    cursor: none;
+    background-image: url('images/rHZox6.png');
+  }
+
+  .cursor {
+    width: 20px;
+    height: 20px;
+    border: 1px  solid black;
+    border-radius: 50%;
+    position: absolute;
+    animation: cursorAnim .5s infinite alternate;
+  }
+
+  .cursor::after{
+    content: "";
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    border: 8px solid gray;
+    border-radius: 50%;
+    opacity: .5;
+    top: -8px;
+    left: -8px;
+    animation: cursorAnim2 .5s infinite alternate
+
+  }
+
+  @keyframes cursorAnim {
+  from{
+    transform: scale(1);
+  }to{
+    transform: scale(.7);
+  }    
+  }
+
+  @keyframes cursorAnim2 {
+    from{
+      transform: scale(1);
+    }to{
+      transform: scale(.4);
+    }    
+  }
+
+  @keyframes cursorAnim3 {
+    0%{
+      transform: scale(1);
+    }50%{
+      transform: scale(3);
+    }100%{
+    transform: scale(1);
+    opacity: 0;
+  }    
+  }
+
+  .expand {
+    animation: cursorAnim3 .5s forwards;
+    border: 1px solid red
   }
