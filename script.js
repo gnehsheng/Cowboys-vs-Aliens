@@ -1,16 +1,8 @@
 /**  @type (HTMLCanvasElement) */
-const canvas = document.getElementById('canvas1')
+const canvas = document.getElementById('canvas')
 const ctx = canvas.getContext('2d')
 canvas.width = innerWidth
 canvas.height = innerHeight
-
-window.addEventListener("keydown", function (e) {
-    if ([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
-        e.preventDefault();
-    }
-}, false);
-
-const keys = []
 
 
 const player = {
@@ -21,10 +13,16 @@ const player = {
     frameX: 0,
     frameY: 0,
     speed: 11,
-    moving: false
+    moving: false,
+    shooting: false,
+    health: 100,
+    projectiles: []
 }
 
 //PLAYER SPRITE & MOVEMENT
+
+const keys = []
+
 const playerSprite = new Image()
 playerSprite.src = 'images/indianajones.png'
 
@@ -73,101 +71,6 @@ function startAnimation(fps) {
     startTime = then
     animate()
 }
-
-//ALIEN LOGIC
-// let gameFrame = 0
-// let numberOfAliens = 20
-// let aliensArr = []
-// const characterActions = ['up', 'top right', 'right', 'down right', 'down'];
-// class Alien {
-//     constructor() {
-//         this.image = new Image()
-//         this.image.src = 'images/death.png'
-//         this.spriteWidth = 32
-//         this.spriteHeight = 48
-//         this.width = 32
-//         this.height = 48
-//         this.x = Math.random() * (canvas.width - this.width)
-//         this.y = Math.random() * (canvas.height - this.height)
-//         this.newX = Math.random() * (canvas.width - this.width)
-//         this.newY = Math.random() * (canvas.height - this.height)
-//         this.frame = 0
-//         this.speed = (Math.random() * 2) + 3
-
-//         this.action = characterActions[Math.floor(Math.random() * characterActions.length)];
-//     }
-//         update(){
-//             if (this.action === 'up') {
-//                 if (this.y < 0 - (this.height * 5)) {
-//                      this.y = canvas.height + this.height;
-//                      this.x = Math.random() * canvas.width;
-//                      this.speed = (Math.random() * 2) + 3
-//                  } else {
-//                      this.y -= this.speed;  
-//                  }
-//              }
-//              else if (this.action === 'top right') {
-//                  if (this.y < 0 - this.height && this.x > canvas.width + this.width) {
-//                      this.y = canvas.height + this.height
-//                      this.x = Math.random() * canvas.width;
-//                      this.speed = (Math.random() * 2) + 3
-//                  } else {
-//                      this.y -= this.speed; 
-//                      this.x += this.speed; 
-//                  }
-//              }
-//              else if (this.action === 'right') {
-//                  if (this.x > canvas.width + (this.width * 5)) {
-//                      this.x = 0 - this.width;
-//                      this.y = Math.random() * canvas.height; 
-//                      this.speed = (Math.random() * 2) + 3
-//                  } else {
-//                      this.x += this.speed; 
-//                  }
-//              }
-//              else if (this.action === 'down right') {
-//                  if (this.y > canvas.height + this.height && this.x > canvas.width + this.width) {
-//                      this.y = 0 - this.height
-//                      this.x = Math.random() * canvas.width;
-//                      this.speed = (Math.random() * 2) + 3
-//                  } else {
-//                      this.y += this.speed; 
-//                      this.x += this.speed; 
-//                  }
-//              } 
-//              else if (this.action === 'down') {
-//                  if (this.y > canvas.height + (this.height * 5)) {
-//                      this.y = 0 - this.height;
-//                      this.x = Math.random() * canvas.width;
-//                      this.speed = (Math.random() * 2) + 3
-//                  } else {
-//                      this.y += this.speed;  
-//                  }
-//              }
-//              else if (this.action === 'jump') {
-
-//              }
-
-//         let dx = this.x - this.newX
-//         let dy = this.y - this.newY
-//         this.x -= dx / 500
-//         this.y -= dy / 500
-
-//         if (this.x + this.width < 0) this.x = canvas.width
-//         // if (alienInterval % 200 === 0) {
-//         //      this.frame > 4 ? this.frame = 0 : this.frame++
-//         // }
-//     }
-//     draw() {
-//         ctx.drawImage(this.image, this.frame * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight,
-//             this.x, this.y, this.width, this.height)
-//     }
-
-// }
-
-// for (let i = 0; i < numberOfAliens; i++) {
-//     aliensArr.push(new Alien())
-// }
 
 const images = {};
 images.player = new Image();
@@ -305,5 +208,3 @@ function animate() {
 
 }
 startAnimation(40)
-
-// window.onload = setInterval(animate, 1000/20);
