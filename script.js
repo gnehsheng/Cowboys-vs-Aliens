@@ -72,6 +72,37 @@ function startAnimation(fps) {
     animate()
 }
 
+class Projectile {
+    constructor(x, y, radius, color, velocity) {
+        this.x = x
+        this.y = y
+        this.radius = radius
+        this.color = color
+        this.velocity = velocity
+    }
+    draw() {
+        ctx.beginPath()
+        ctx.arc(this.x, this.y, this.radius, 0, Math.pi * 2, false)
+        ctx.fillStyle = this.color
+        ctx.fill()
+    }
+    update() {
+        this.x = this.x + this.velocity.x
+        this.y = this.y + this.velocity.y
+    }
+}
+
+window.addEventListener('click', () => {
+    projectile.draw()
+    projectile.update()
+})
+
+const projectile = new Projectile(
+    player.clientX, player.clientY, 4, 'black', {
+    x: 1,
+    y: 1
+})
+
 const images = {};
 images.player = new Image();
 images.player.src = 'images/alien.png';
@@ -192,6 +223,8 @@ function drawSprite(img, sX, sY, sW, sH, dX, dY, dW, dH) {
 }
 function animate() {
     requestAnimationFrame(animate)
+    projectile.draw()
+    projectile.update()
     now = Date.now()
     elapsed = now - then
     if (elapsed > fpsInterval) {
@@ -208,3 +241,4 @@ function animate() {
 
 }
 startAnimation(40)
+
