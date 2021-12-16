@@ -2,31 +2,42 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-  <link rel="stylesheet" type="text/css" href="style.css" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="./script.js" defer></script>
+    <title>Document</title>
 </head>
 
 <body>
-  <div class ="cursor"></div>
-  
-  <script>
-    const cursor = document.querySelector('.cursor')
-    document.addEventListener('mousemove', e => {
-      cursor.setAttribute('style', 'top: '+(e.pageY - 10)+'px; left: '+(e.pageX - 10)+'px;')
-    })
-    document.addEventListener('click', () => {
-      cursor.classList.add('expand');
-      setTimeout(() => {
-        cursor.classList.remove('expand')
-      }, 100)
-    })
-  </script>
-  
-  <canvas id="canvas"></canvas>
+    <div class="score"><span>Score: </span><span id="scoreEl">0</span></div>
+    <div class="start">
+        <div class="bg-white">
+            <h1>0</h1>
+            <p>Points</p>
+            <div>
+                <button class="button">Start Game</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="cursor"></div>
+    <script>
+        const cursor = document.querySelector('.cursor')
+        document.addEventListener('mousemove', e => {
+            cursor.setAttribute('style', 'top: ' + (e.pageY - 10) + 'px; left: ' + (e.pageX - 10) + 'px;')
+        })
+        document.addEventListener('click', () => {
+            cursor.classList.add('expand');
+            setTimeout(() => {
+                cursor.classList.remove('expand')
+            }, 100)
+        })
+    </script>
+    
+    <canvas id="canvas"></canvas>
 
 </body>
-
-<script src="script.js"></script>
 
 </html>
