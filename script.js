@@ -5,6 +5,8 @@ canvas.width = innerWidth
 canvas.height = innerHeight
 
 const scoreEl = document.querySelector('#scoreEl')
+// const startGameEl = document.querySelector('#startGameEl')
+// const start = document.querySelector('start')
 
 class Player {
     constructor() {
@@ -173,10 +175,10 @@ function createEnemies() {
         }
 
         enemies.push(new Enemy())
-    }, 300)
+    }, 1000)
 
 }
-createEnemies()
+
 
 function drawSprite(img, sX, sY, sW, sH, dX, dY, dW, dH) {
     ctx.drawImage(img, sX, sY, sW, sH, dX, dY, dW, dH)
@@ -184,16 +186,18 @@ function drawSprite(img, sX, sY, sW, sH, dX, dY, dW, dH) {
 
 window.addEventListener('click', (e) => {
     const angle = Math.atan2(
-        e.clientY - canvas.height / 2, e.clientX - canvas.width / 2
+        e.clientY - player.y, e.clientX - player.x
     )
     const velocity = {
         x: Math.cos(angle) * 3,
         y: Math.sin(angle) * 3
     }
     projectiles.push(new Projectile(
-        canvas.width / 2, canvas.height / 2, 3, 'black', velocity)
+        player.x , player.y, 3, 'black', velocity)
     )
 })
+
+
 
 let animationId
 let score = 0
@@ -234,17 +238,16 @@ function animate() {
         enemy.update()
 
         //end game 
-        const dist = Math.hypot(player.x - enemy.x, player.y - enemy.y)
-        if (dist - enemy.width - player.width < 1 || dist - enemy.height - player.height < 1) {
+        if (player.x < enemy.x + enemy.width && player.x + player.width > enemy.x &&
+            player.y < enemy.y + enemy.height && player.y + player.height > enemy.y) {
             cancelAnimationFrame(animationId)
         }
 
         enemy.handleAlienFrame()
         projectiles.forEach((projectile, projectileIndex) => {
-            const dist = Math.hypot(projectile.x - enemy.x, projectile.y - enemy.y)
-
             //removing enemies and projectiles
-            if (dist - enemy.width - projectile.radius < 1 || dist - enemy.height - projectile.radius < 1) {
+            if (projectile.x < enemy.x + enemy.width && projectile.x + projectile.radius > enemy.x &&
+                projectile.y < enemy.y + enemy.height && projectile.y + projectile.radius > enemy.y) {
                 //increasing score
                 scoreEl.innerHTML = score
                 score += 50
@@ -266,6 +269,9 @@ function animate() {
 }
 
 
-
+// startGameEl.addEventListener('click', () => {
 animate()
+createEnemies()
+//     start.style.display = 'none'
+// })
 

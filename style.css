@@ -7,22 +7,23 @@ body {
   height: 100vh;
   width: 100vh;
   overflow: hidden;
-  cursor: none;
   background-image: url('images/BACKGROUND.png');
 }
 
 .score{
 color: brown;
 font-size: 20px;
-margin: 50px 0px 0px 50px;
-background-color: white;
+margin: 20px;
+
 }
 
 .start{
 margin: auto;
 text-align: center;
 background-color: white;
-border-radius: 20px;
+border-radius: 5px;
+font-size: 25px;
+padding: 30px;
 height: 250px;
 width: 600px;
 position: absolute;
@@ -32,12 +33,20 @@ margin-right: -50%;
 transform: translate(-50%, -50%)                         
 }
 
-.button{
-background-color: rgb(103, 103, 214);
-color: white;
+.pts{
+  font-weight: bold;
 }
 
-.cursor {
+#startGameEl{
+background-color: rgb(59, 191, 224);
+color: white;
+border: none;
+border-radius: 50px;
+font-size: 20px;
+padding: 15px 150px;
+}
+
+/* .cursor {
   width: 20px;
   height: 20px;
   border: 1px  solid black;
@@ -90,4 +99,4 @@ from{
 .expand {
   animation: cursorAnim3 .5s forwards;
   border: 1px solid red
-}
+} */
