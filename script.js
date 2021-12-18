@@ -166,15 +166,16 @@ function createEnemies() {
     setInterval(() => {
         let x
         let y
+        let enemy = new Enemy()
         if (Math.random() < 0.5) {
-            x = Math.random() < 0.5 ? 0 - this.width : canvas.width + this.width
-            y = Math.random() * canvas.height
+            enemy.x = Math.random() < 0.5 ? 0 - enemy.width : canvas.width + enemy.width
+            enemy.y = Math.random() * canvas.height
+            
         } else {
-            x = Math.random() * canvas.width
-            y = Math.random() < 0.5 ? 0 - this.height : canvas.height + this.height
+            enemy.x = Math.random() * canvas.width
+           enemy.y = Math.random() < 0.5 ? 0 - enemy.height : canvas.height + enemy.height
         }
-
-        enemies.push(new Enemy())
+        enemies.push(enemy)
     }, 1000)
 
 }
@@ -187,13 +188,15 @@ function drawSprite(img, sX, sY, sW, sH, dX, dY, dW, dH) {
 window.addEventListener('click', (e) => {
     const angle = Math.atan2(
         e.clientY - player.y, e.clientX - player.x
-    )
+    ) 
+
+    console.log(angle)
     const velocity = {
         x: Math.cos(angle) * 3,
         y: Math.sin(angle) * 3
     }
     projectiles.push(new Projectile(
-        player.x , player.y, 3, 'black', velocity)
+        player.x + player.width / 2, player.y + player.height / 2, 3, 'black', velocity)
     )
 })
 
@@ -253,7 +256,7 @@ function animate() {
                 score += 50
 
                 //creating effects
-                for (let i = 0; i < 20; i++) {
+                for (let i = 0; i < 30; i++) {
                     effects.push(new Effect(projectile.x, projectile.y, Math.random() * 2, 'red',
                         {
                             x: (Math.random() - 0.5) * (Math.random() * 5), y: (Math.random() - (Math.random() * 5))
