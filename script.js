@@ -269,9 +269,9 @@ function animate() {
 }
 
 
-startGameEl.addEventListener('click', () => {
+// startGameEl.addEventListener('click', () => {
 animate()
 createEnemies()
-    start.style.display = 'none'
-})
+//     start.style.display = 'none'
+// })
 
