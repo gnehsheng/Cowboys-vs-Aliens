@@ -4,9 +4,9 @@ const ctx = canvas.getContext('2d')
 canvas.width = innerWidth
 canvas.height = innerHeight
 
-const scoreEl = document.querySelector('#scoreEl')
-const startGameEl = document.querySelector('#startGameEl')
-const start = document.querySelector('start')
+// const scoreEl = document.querySelector('#scoreEl')
+// const startGameEl = document.querySelector('#startGameEl')
+// const start = document.querySelector('start')
 
 class Player {
     constructor() {
@@ -131,34 +131,21 @@ class Enemy {
         this.type = true
         this.x = Math.random() < 0.5 ? 0 - this.width : canvas.width + this.width
         this.y = Math.random() < 0.5 ? 0 - this.height : canvas.height + this.height
-        this.speed = Math.random() / 1.5 + 0.5
-    }
-    drawEnemy() {
-        drawSprite(enemySprite, this.width * this.frameX, this.height * this.frameY, this.width, this.height, this.x, this.y, this.width, this.height)
-
-        if (this.frameX < this.maxFrame) this.frameX++
-        else this.frameX = this.minFrame
+        this.speed = 0.5
     }
     handleAlienFrame() {
-        if (this.frameX < 3 && this.moving) this.frameX++
+        if (this.frameX < 3) this.frameX++
         else this.frameX = 0
     }
     update() {
-        let check = false
-        if (player.x > this.x) {
-            this.x += this.speed
-            check = true
-        } else if (player.x < this.x) {
-            this.x -= this.speed
-            check = true
-        }
-        if (player.y > this.y) {
-            this.y += this.speed
-            check = true
-        } else if (player.y < this.y) {
-            this.y -= this.speed
-            check = true
-        }
+        //chasing logic
+        let dx = player.x - this.x
+        let dy = player.y - this.y
+        
+        dx > 0 ? (this.x += this.speed) : (this.x -= this.speed)
+        dy > 0 ? (this.y += this.speed) : (this.y -= this.speed)
+        //enemy sprite frame facing
+        this.frameY = (dx >= dy) ? dx > 0 ? 2 : 1 : dy > 0 ? 0 : 3
     }
 }
 
@@ -170,10 +157,10 @@ function createEnemies() {
         if (Math.random() < 0.5) {
             enemy.x = Math.random() < 0.5 ? 0 - enemy.width : canvas.width + enemy.width
             enemy.y = Math.random() * canvas.height
-            
+
         } else {
             enemy.x = Math.random() * canvas.width
-           enemy.y = Math.random() < 0.5 ? 0 - enemy.height : canvas.height + enemy.height
+            enemy.y = Math.random() < 0.5 ? 0 - enemy.height : canvas.height + enemy.height
         }
         enemies.push(enemy)
     }, 1000)
@@ -188,9 +175,7 @@ function drawSprite(img, sX, sY, sW, sH, dX, dY, dW, dH) {
 window.addEventListener('click', (e) => {
     const angle = Math.atan2(
         e.clientY - player.y, e.clientX - player.x
-    ) 
-
-    console.log(angle)
+    )
     const velocity = {
         x: Math.cos(angle) * 3,
         y: Math.sin(angle) * 3
@@ -199,7 +184,6 @@ window.addEventListener('click', (e) => {
         player.x + player.width / 2, player.y + player.height / 2, 3, 'black', velocity)
     )
 })
-
 
 
 let animationId
@@ -238,6 +222,7 @@ function animate() {
 
     enemies.forEach((enemy, index) => {
         drawSprite(enemySprite, enemy.width * enemy.frameX, enemy.height * enemy.frameY, enemy.width, enemy.height, enemy.x, enemy.y, enemy.width, enemy.height)
+        enemy.handleAlienFrame()
         enemy.update()
 
         //end game 
@@ -246,7 +231,8 @@ function animate() {
             cancelAnimationFrame(animationId)
         }
 
-        enemy.handleAlienFrame()
+
+
         projectiles.forEach((projectile, projectileIndex) => {
             //removing enemies and projectiles
             if (projectile.x < enemy.x + enemy.width && projectile.x + projectile.radius > enemy.x &&
