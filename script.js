@@ -5,8 +5,8 @@ canvas.width = innerWidth
 canvas.height = innerHeight
 
 const scoreEl = document.querySelector('#scoreEl')
-// const startGameEl = document.querySelector('#startGameEl')
-// const start = document.querySelector('start')
+const startGameEl = document.querySelector('#startGameEl')
+const start = document.querySelector('start')
 
 class Player {
     constructor() {
@@ -269,9 +269,9 @@ function animate() {
 }
 
 
-// startGameEl.addEventListener('click', () => {
+startGameEl.addEventListener('click', () => {
 animate()
 createEnemies()
-//     start.style.display = 'none'
-// })
+    start.style.display = 'none'
+})
 
