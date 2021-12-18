@@ -8,6 +8,16 @@ canvas.height = innerHeight
 // const startGameEl = document.querySelector('#startGameEl')
 // const start = document.querySelector('start')
 
+
+let gameStartSound = new Audio(src = 'sounds/gamestart.wav')
+let gameOverSound = new Audio(src = 'sounds/gameover.wav')
+
+function gunShot() {
+    let sound = new Audio(src = 'sounds/gunshot.mp3')
+    sound.load();     
+    sound.play();
+  }
+
 class Player {
     constructor() {
         this.x = canvas.width / 2
@@ -131,7 +141,7 @@ class Enemy {
         this.type = true
         this.x = Math.random() < 0.5 ? 0 - this.width : canvas.width + this.width
         this.y = Math.random() < 0.5 ? 0 - this.height : canvas.height + this.height
-        this.speed = 0.5
+        this.speed = 1
     }
     handleAlienFrame() {
         if (this.frameX < 3) this.frameX++
@@ -141,7 +151,7 @@ class Enemy {
         //chasing logic
         let dx = player.x - this.x
         let dy = player.y - this.y
-        
+
         dx > 0 ? (this.x += this.speed) : (this.x -= this.speed)
         dy > 0 ? (this.y += this.speed) : (this.y -= this.speed)
         //enemy sprite frame facing
@@ -177,12 +187,13 @@ window.addEventListener('click', (e) => {
         e.clientY - player.y, e.clientX - player.x
     )
     const velocity = {
-        x: Math.cos(angle) * 3,
-        y: Math.sin(angle) * 3
+        x: Math.cos(angle) * 10,
+        y: Math.sin(angle) * 10
     }
     projectiles.push(new Projectile(
         player.x + player.width / 2, player.y + player.height / 2, 3, 'black', velocity)
     )
+    gunShot()
 })
 
 
@@ -229,6 +240,7 @@ function animate() {
         if (player.x < enemy.x + enemy.width && player.x + player.width > enemy.x &&
             player.y < enemy.y + enemy.height && player.y + player.height > enemy.y) {
             cancelAnimationFrame(animationId)
+            gameOverSound.play()
         }
 
 
