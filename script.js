@@ -4,19 +4,19 @@ const ctx = canvas.getContext('2d')
 canvas.width = innerWidth
 canvas.height = innerHeight
 
-// const scoreEl = document.querySelector('#scoreEl')
-// const startGameEl = document.querySelector('#startGameEl')
-// const start = document.querySelector('start')
-
+const scoreEl = document.querySelector('#scoreEl')
+const startGameEl = document.querySelector('#startGameEl')
+const start = document.querySelector('.start')
+const pts = document.querySelector('.pts')
 
 let gameStartSound = new Audio(src = 'sounds/gamestart.wav')
 let gameOverSound = new Audio(src = 'sounds/gameover.wav')
 
 function gunShot() {
     let sound = new Audio(src = 'sounds/gunshot.mp3')
-    sound.load();     
+    sound.load();
     sound.play();
-  }
+}
 
 class Player {
     constructor() {
@@ -127,11 +127,20 @@ playerSprite.src = 'images/COWBOY.png'
 const enemySprite = new Image()
 enemySprite.src = 'images/alien.png'
 
-const images = []
-const enemies = []
-const projectiles = []
-const effects = []
+let images = []
+let enemies = []
+let projectiles = []
+let effects = []
 
+function init(){
+    images = []
+    enemies = []
+    projectiles = []
+    effects = []
+    score = 0
+    scoreEl.innerHTML = score
+    pts.innerHTML = score
+}
 class Enemy {
     constructor() {
         this.width = 32
@@ -182,20 +191,6 @@ function drawSprite(img, sX, sY, sW, sH, dX, dY, dW, dH) {
     ctx.drawImage(img, sX, sY, sW, sH, dX, dY, dW, dH)
 }
 
-window.addEventListener('click', (e) => {
-    const angle = Math.atan2(
-        e.clientY - player.y, e.clientX - player.x
-    )
-    const velocity = {
-        x: Math.cos(angle) * 10,
-        y: Math.sin(angle) * 10
-    }
-    projectiles.push(new Projectile(
-        player.x + player.width / 2, player.y + player.height / 2, 3, 'black', velocity)
-    )
-    gunShot()
-})
-
 
 let animationId
 let score = 0
@@ -240,6 +235,8 @@ function animate() {
         if (player.x < enemy.x + enemy.width && player.x + player.width > enemy.x &&
             player.y < enemy.y + enemy.height && player.y + player.height > enemy.y) {
             cancelAnimationFrame(animationId)
+            start.style.display = ''
+            pts.innerHTML = score
             gameOverSound.play()
         }
 
@@ -269,10 +266,25 @@ function animate() {
     })
 }
 
+window.addEventListener('click', (e) => {
+    const angle = Math.atan2(
+        e.clientY - player.y, e.clientX - player.x
+    )
+    const velocity = {
+        x: Math.cos(angle) * 10,
+        y: Math.sin(angle) * 10
+    }
+    projectiles.push(new Projectile(
+        player.x + player.width / 2, player.y + player.height / 2, 3, 'black', velocity)
+    )
+    gunShot()
+})
 
-// startGameEl.addEventListener('click', () => {
-animate()
-createEnemies()
-//     start.style.display = 'none'
-// })
+startGameEl.addEventListener('click', () => {
+    init()
+    animate()
+    createEnemies()
+    gameStartSound.play()
+    start.style.display = 'none'
+})
 
