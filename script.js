@@ -182,7 +182,7 @@ function createEnemies() {
             enemy.y = Math.random() < 0.5 ? 0 - enemy.height : canvas.height + enemy.height
         }
         enemies.push(enemy)
-    }, 1000)
+    }, 1500)
 
 }
 
@@ -284,8 +284,8 @@ window.addEventListener('click', (e) => {
         e.clientY - player.y, e.clientX - player.x
     )
     const velocity = {
-        x: Math.cos(angle) * 10,
-        y: Math.sin(angle) * 10
+        x: Math.cos(angle) * 20,
+        y: Math.sin(angle) * 20
     }
     projectiles.push(new Projectile(
         player.x + player.width / 2, player.y + player.height / 2, 3, 'black', velocity)
