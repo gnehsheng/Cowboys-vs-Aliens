@@ -1,4 +1,3 @@
-
 const canvas = document.getElementById('canvas')
 const ctx = canvas.getContext('2d')
 canvas.width = innerWidth
@@ -9,13 +8,30 @@ const startGameEl = document.querySelector('#startGameEl')
 const start = document.querySelector('.start')
 const pts = document.querySelector('.pts')
 
+const friction = 0.97
+
 let gameStartSound = new Audio(src = 'sounds/gamestart.wav')
 let gameOverSound = new Audio(src = 'sounds/gameover.wav')
-
 function gunShot() {
     let sound = new Audio(src = 'sounds/gunshot.mp3')
     sound.load();
     sound.play();
+}
+
+let images = []
+let enemies = []
+let projectiles = []
+let effects = []
+let keys = []
+
+function init() {
+    images = []
+    enemies = []
+    projectiles = []
+    effects = []
+    score = 0
+    scoreEl.innerHTML = score
+    pts.innerHTML = score
 }
 
 class Player {
@@ -57,19 +73,6 @@ class Player {
     }
 }
 
-const player = new Player()
-const keys = []
-
-window.addEventListener('keydown', function (e) {
-    keys[e.keyCode] = true
-    player.moving = true
-})
-
-window.addEventListener('keyup', function (e) {
-    delete keys[e.keyCode]
-    player.moving = false
-})
-
 class Projectile {
     constructor(x, y, radius, color, velocity) {
         this.x = x
@@ -91,7 +94,6 @@ class Projectile {
     }
 }
 
-const friction = 0.97
 class Effect {
     constructor(x, y, radius, color, velocity) {
         this.x = x
@@ -118,28 +120,6 @@ class Effect {
         this.y = this.y + this.velocity.y
         this.alpha -= 0.05
     }
-}
-
-
-const playerSprite = new Image()
-playerSprite.src = 'images/COWBOY.png'
-
-const enemySprite = new Image()
-enemySprite.src = 'images/alien.png'
-
-let images = []
-let enemies = []
-let projectiles = []
-let effects = []
-
-function init() {
-    images = []
-    enemies = []
-    projectiles = []
-    effects = []
-    score = 0
-    scoreEl.innerHTML = score
-    pts.innerHTML = score
 }
 class Enemy {
     constructor() {
@@ -168,6 +148,14 @@ class Enemy {
     }
 }
 
+const player = new Player()
+
+const playerSprite = new Image()
+playerSprite.src = 'images/COWBOY.png'
+
+const enemySprite = new Image()
+enemySprite.src = 'images/alien.png'
+
 function createEnemies() {
     setInterval(() => {
         let x
@@ -176,14 +164,12 @@ function createEnemies() {
         if (Math.random() < 0.5) {
             enemy.x = Math.random() < 0.5 ? 0 - enemy.width : canvas.width + enemy.width
             enemy.y = Math.random() * canvas.height
-
         } else {
             enemy.x = Math.random() * canvas.width
             enemy.y = Math.random() < 0.5 ? 0 - enemy.height : canvas.height + enemy.height
         }
         enemies.push(enemy)
     }, 1500)
-
 }
 
 let fps, fpsInterval, startTime, now, then, elapsed
@@ -194,7 +180,6 @@ function startAnimation(fps) {
     animate()
     createEnemies()
 }
-
 
 function drawSprite(img, sX, sY, sW, sH, dX, dY, dW, dH) {
     ctx.drawImage(img, sX, sY, sW, sH, dX, dY, dW, dH)
@@ -222,7 +207,6 @@ function animate() {
                 effect.update()
             }
         })
-
 
         projectiles.forEach((projectile, index) => {
             projectile.update()
@@ -252,8 +236,6 @@ function animate() {
                 gameOverSound.play()
             }
 
-
-
             projectiles.forEach((projectile, projectileIndex) => {
                 //removing enemies and projectiles
                 if (projectile.x < enemy.x + enemy.width && projectile.x + projectile.radius > enemy.x &&
@@ -279,6 +261,16 @@ function animate() {
     }
 }
 
+window.addEventListener('keydown', function (e) {
+    keys[e.keyCode] = true
+    player.moving = true
+})
+
+window.addEventListener('keyup', function (e) {
+    delete keys[e.keyCode]
+    player.moving = false
+})
+
 window.addEventListener('click', (e) => {
     const angle = Math.atan2(
         e.clientY - player.y, e.clientX - player.x
@@ -298,5 +290,6 @@ startGameEl.addEventListener('click', () => {
     startAnimation(60)
     gameStartSound.play()
     start.style.display = 'none'
+
 })
 
