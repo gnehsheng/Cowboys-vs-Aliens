@@ -261,16 +261,19 @@ function animate() {
     }
 }
 
+//pressing keys down listener
 window.addEventListener('keydown', function (e) {
     keys[e.keyCode] = true
     player.moving = true
 })
 
+//when releasing pressed keys listener
 window.addEventListener('keyup', function (e) {
     delete keys[e.keyCode]
     player.moving = false
 })
 
+//firing projectiles
 window.addEventListener('click', (e) => {
     const angle = Math.atan2(
         e.clientY - player.y, e.clientX - player.x
