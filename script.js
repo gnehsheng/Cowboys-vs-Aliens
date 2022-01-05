@@ -10,6 +10,21 @@ const pts = document.querySelector('.pts')
 
 const friction = 0.97
 
+function shootBullets(e) {
+    const angle = Math.atan2(
+        e.pageY - player.y , e.pageX - player.x
+    )
+    const velocity = {
+        x: Math.cos(angle) * 20,
+        y: Math.sin(angle) * 20
+    }
+    projectiles.push(new Projectile(
+        player.x + player.width / 2, player.y + player.height / 2, 3, 'black', velocity)
+    )
+    gunShot()
+}
+
+
 let gameStartSound = new Audio(src = 'sounds/gamestart.wav')
 let gameOverSound = new Audio(src = 'sounds/gameover.wav')
 function gunShot() {
@@ -93,7 +108,6 @@ class Projectile {
         this.draw()
         this.x = this.x + this.velocity.x
         this.y = this.y + this.velocity.y
-        console.log("bullet", this.x, this.y)
     }
 }
 
@@ -176,24 +190,6 @@ function createEnemies() {
     }, 1500)
 }
 
-function shootBullets() {
-    window.addEventListener('click', (e) => {
-        const angle = Math.atan2(
-            e.pageY - player.y, e.pageX - player.x
-        )
-        const velocity = {
-            x: Math.cos(angle) * 20,
-            y: Math.sin(angle) * 20
-        }
-        projectiles.push(new Projectile(
-            player.x + player.width / 2, player.y + player.height / 2, 3, 'black', velocity)
-        )
-        gunShot()
-        console.log(e.pageX, e.pageY)
-
-    })
-}
-
 let fps, fpsInterval, startTime, now, then, elapsed
 function startAnimation(fps) {
     fpsInterval = 1500 / fps
@@ -256,7 +252,8 @@ function animate() {
                 start.style.display = ''
                 pts.innerHTML = score
                 gameOverSound.play()
-                clearTimeout(shootBullets())
+                window.removeEventListener('click', shootBullets)
+                    
             }
 
             projectiles.forEach((projectile, projectileIndex) => {
@@ -296,16 +293,15 @@ window.addEventListener('keyup', function (e) {
     player.moving = false
 })
 
-
-
 startGameEl.addEventListener('click', () => {
     init()
     startAnimation(60)
     gameStartSound.play()
     start.style.display = 'none'
 
+
     //firing projectiles 
     setTimeout(() => {
-        shootBullets()
+        window.addEventListener('click', shootBullets)
     }, 500)
 })
