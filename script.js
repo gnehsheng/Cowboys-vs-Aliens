@@ -10,21 +10,6 @@ const pts = document.querySelector('.pts')
 
 const friction = 0.97
 
-function shootBullets(e) {
-    const angle = Math.atan2(
-        e.pageY - player.y , e.pageX - player.x
-    )
-    const velocity = {
-        x: Math.cos(angle) * 20,
-        y: Math.sin(angle) * 20
-    }
-    projectiles.push(new Projectile(
-        player.x + player.width / 2, player.y + player.height / 2, 3, 'black', velocity)
-    )
-    gunShot()
-}
-
-
 let gameStartSound = new Audio(src = 'sounds/gamestart.wav')
 let gameOverSound = new Audio(src = 'sounds/gameover.wav')
 function gunShot() {
@@ -190,6 +175,21 @@ function createEnemies() {
     }, 1500)
 }
 
+//firing projectiles 
+function shootBullets(e) {
+    const angle = Math.atan2(
+        e.pageY - player.y, e.pageX - player.x
+    )
+    const velocity = {
+        x: Math.cos(angle) * 20,
+        y: Math.sin(angle) * 20
+    }
+    projectiles.push(new Projectile(
+        player.x + player.width / 2, player.y + player.height / 2, 3, 'black', velocity)
+    )
+    gunShot()
+}
+
 let fps, fpsInterval, startTime, now, then, elapsed
 function startAnimation(fps) {
     fpsInterval = 1500 / fps
@@ -253,7 +253,7 @@ function animate() {
                 pts.innerHTML = score
                 gameOverSound.play()
                 window.removeEventListener('click', shootBullets)
-                    
+
             }
 
             projectiles.forEach((projectile, projectileIndex) => {
@@ -299,8 +299,6 @@ startGameEl.addEventListener('click', () => {
     gameStartSound.play()
     start.style.display = 'none'
 
-
-    //firing projectiles 
     setTimeout(() => {
         window.addEventListener('click', shootBullets)
     }, 500)
