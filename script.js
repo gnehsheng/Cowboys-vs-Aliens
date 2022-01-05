@@ -34,6 +34,7 @@ function init() {
     pts.innerHTML = score
 }
 
+//player class
 class Player {
     constructor() {
         this.x = canvas.width / 2
@@ -73,6 +74,7 @@ class Player {
     }
 }
 
+//bullet class
 class Projectile {
     constructor(x, y, radius, color, velocity) {
         this.x = x
@@ -91,9 +93,11 @@ class Projectile {
         this.draw()
         this.x = this.x + this.velocity.x
         this.y = this.y + this.velocity.y
+        console.log("bullet", this.x, this.y)
     }
 }
 
+//"blood" splatter effect
 class Effect {
     constructor(x, y, radius, color, velocity) {
         this.x = x
@@ -172,6 +176,24 @@ function createEnemies() {
     }, 1500)
 }
 
+function shootBullets() {
+    window.addEventListener('click', (e) => {
+        const angle = Math.atan2(
+            e.pageY - player.y, e.pageX - player.x
+        )
+        const velocity = {
+            x: Math.cos(angle) * 20,
+            y: Math.sin(angle) * 20
+        }
+        projectiles.push(new Projectile(
+            player.x + player.width / 2, player.y + player.height / 2, 3, 'black', velocity)
+        )
+        gunShot()
+        console.log(e.pageX, e.pageY)
+
+    })
+}
+
 let fps, fpsInterval, startTime, now, then, elapsed
 function startAnimation(fps) {
     fpsInterval = 1500 / fps
@@ -234,6 +256,7 @@ function animate() {
                 start.style.display = ''
                 pts.innerHTML = score
                 gameOverSound.play()
+                clearTimeout(shootBullets())
             }
 
             projectiles.forEach((projectile, projectileIndex) => {
@@ -273,20 +296,7 @@ window.addEventListener('keyup', function (e) {
     player.moving = false
 })
 
-//firing projectiles
-window.addEventListener('click', (e) => {
-    const angle = Math.atan2(
-        e.clientY - player.y, e.clientX - player.x
-    )
-    const velocity = {
-        x: Math.cos(angle) * 20,
-        y: Math.sin(angle) * 20
-    }
-    projectiles.push(new Projectile(
-        player.x + player.width / 2, player.y + player.height / 2, 3, 'black', velocity)
-    )
-    gunShot()
-})
+
 
 startGameEl.addEventListener('click', () => {
     init()
@@ -294,5 +304,8 @@ startGameEl.addEventListener('click', () => {
     gameStartSound.play()
     start.style.display = 'none'
 
+    //firing projectiles 
+    setTimeout(() => {
+        shootBullets()
+    }, 500)
 })
-
