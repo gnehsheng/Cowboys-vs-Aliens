@@ -19,6 +19,9 @@ function gunShot() {
     sound.volume = 0.4
 }
 
+gameOverSound.volume = 0.4
+gameStartSound.volume = 0.4
+
 let globalCounter = 0
 let images = []
 let enemies = []
@@ -135,7 +138,7 @@ class Enemy {
         this.type = true
         this.x = Math.random() < 0.5 ? 0 - this.width : canvas.width + this.width
         this.y = Math.random() < 0.5 ? 0 - this.height : canvas.height + this.height
-        this.speed = Math.random() * 2 + 0.5
+        this.speed = Math.random() * 1.2 + 0.5
     }
     handleAlienFrame() {
         if (this.frameX < 3) this.frameX++
@@ -177,7 +180,7 @@ function createEnemies() {
             enemy.y = Math.random() < 0.5 ? 0 - enemy.height : canvas.height + enemy.height
         }
         enemies.push(enemy)
-    }, globalCounter < 800 ? 800 : globalCounter > 800 && globalCounter < 1500 ? 500 : 300)
+    }, globalCounter < 600 ? 800 : globalCounter > 600 && globalCounter < 1000 ? 500 : 300)
 }
 
 //firing projectiles 
@@ -223,7 +226,7 @@ function animate() {
     if (elapsed > fpsInterval) {
         then = now - (elapsed % fpsInterval)
         globalCounter++
-        globalCounter === 800 ? resetEnemies() : globalCounter === 1500 ? resetEnemies() : null
+        globalCounter === 600 ? resetEnemies() : globalCounter === 1000 ? resetEnemies() : null
 
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         drawSprite(playerSprite, player.width * player.frameX, player.height * player.frameY, player.width, player.height, player.x, player.y, player.width, player.height)
