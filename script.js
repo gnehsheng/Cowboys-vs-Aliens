@@ -16,6 +16,7 @@ function gunShot() {
     let sound = new Audio(src = 'sounds/gunshot.mp3')
     sound.load();
     sound.play();
+    sound.volume = 0.4
 }
 
 let globalCounter = 0
@@ -44,7 +45,7 @@ class Player {
         this.height = 48
         this.frameX = 0
         this.frameY = 0
-        this.speed = 5
+        this.speed = 8
         this.moving = false
     }
     movement() {
@@ -155,7 +156,7 @@ class Enemy {
 const player = new Player()
 
 const playerSprite = new Image()
-playerSprite.src = 'images/COWBOY.png'
+playerSprite.src = 'images/cowboy.png'
 
 const enemySprite = new Image()
 enemySprite.src = 'images/alien.png'
@@ -163,7 +164,6 @@ enemySprite.src = 'images/alien.png'
 let t
 
 function createEnemies() {
-
     t = setInterval(() => {
         let x
         let y
@@ -177,7 +177,7 @@ function createEnemies() {
             enemy.y = Math.random() < 0.5 ? 0 - enemy.height : canvas.height + enemy.height
         }
         enemies.push(enemy)
-    }, globalCounter < 600 ? 800 : globalCounter > 600 && globalCounter < 1000 ? 500 : 300)
+    }, globalCounter < 800 ? 800 : globalCounter > 800 && globalCounter < 1500 ? 500 : 300)
 }
 
 //firing projectiles 
@@ -195,14 +195,14 @@ function shootBullets(e) {
     gunShot()
 }
 
-// let fps, fpsInterval, startTime, now, then, elapsed
-// function startAnimation(fps) {
-//     fpsInterval = 1500 / fps
-//     then = Date.now()
-//     startTime = then
-//     animate()
-//     createEnemies()
-// }
+let fps, fpsInterval, startTime, now, then, elapsed
+function startAnimation(fps) {
+    fpsInterval = 1000 / fps
+    then = Date.now()
+    startTime = then
+    animate()
+    createEnemies()
+}
 
 function drawSprite(img, sX, sY, sW, sH, dX, dY, dW, dH) {
     ctx.drawImage(img, sX, sY, sW, sH, dX, dY, dW, dH)
@@ -218,85 +218,83 @@ function resetEnemies() {
 
 function animate() {
     animationId = requestAnimationFrame(animate)
-    // now = Date.now()
-    // elapsed = now - then
-    // if (elapsed > fpsInterval) {
-    //     then = now - (elapsed % fpsInterval)
-    globalCounter++
-    globalCounter === 600 ? resetEnemies() : globalCounter === 1000 ? resetEnemies() : null
+    now = Date.now()
+    elapsed = now - then
+    if (elapsed > fpsInterval) {
+        then = now - (elapsed % fpsInterval)
+        globalCounter++
+        globalCounter === 800 ? resetEnemies() : globalCounter === 1500 ? resetEnemies() : null
 
-    console.log(globalCounter)
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        drawSprite(playerSprite, player.width * player.frameX, player.height * player.frameY, player.width, player.height, player.x, player.y, player.width, player.height)
+        player.movement()
+        player.handlePlayerFrame()
+        //calling and removing explosion effects
+        effects.forEach((effect, index) => {
+            if (effect.alpha <= 0) {
+                effects.splice(index, 1)
+            } else {
+                effect.update()
+            }
+        })
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-    drawSprite(playerSprite, player.width * player.frameX, player.height * player.frameY, player.width, player.height, player.x, player.y, player.width, player.height)
-    player.movement()
-    player.handlePlayerFrame()
-    //calling and removing explosion effects
-    effects.forEach((effect, index) => {
-        if (effect.alpha <= 0) {
-            effects.splice(index, 1)
-        } else {
-            effect.update()
-        }
-    })
-
-    projectiles.forEach((projectile, index) => {
-        projectile.update()
-        //removing projectiles after leaving canvas
-        if (projectile.x + projectile.radius < 0 ||
-            projectile.x - projectile.radius > canvas.width ||
-            projectile.y + projectile.radius < 0 ||
-            projectile.y - projectile.radius > canvas.height
-        ) {
-            setTimeout(() => {
-                projectiles.splice(index, 1)
-            }, 0)
-        }
-    })
-    //creating enemies
-    enemies.forEach((enemy, index) => {
-        drawSprite(enemySprite, enemy.width * enemy.frameX, enemy.height * enemy.frameY, enemy.width, enemy.height, enemy.x, enemy.y, enemy.width, enemy.height)
-        enemy.handleAlienFrame()
-        enemy.update()
-
-        //end game 
-        if (player.x < enemy.x + enemy.width && player.x + player.width > enemy.x &&
-            player.y < enemy.y + enemy.height && player.y + player.height > enemy.y) {
-            cancelAnimationFrame(animationId)
-            start.style.display = ''
-            pts.innerHTML = score
-            gameOverSound.play()
-            globalCounter = 0
-            clearInterval(t)
-            window.removeEventListener('click', shootBullets)
-
-        }
-
-        projectiles.forEach((projectile, projectileIndex) => {
-            //removing enemies and projectiles
-            if (projectile.x < enemy.x + enemy.width && projectile.x + projectile.radius > enemy.x &&
-                projectile.y < enemy.y + enemy.height && projectile.y + projectile.radius > enemy.y) {
-                //increasing score
-                score += 50
-                scoreEl.innerHTML = score
-
-
-                //creating effects
-                for (let i = 0; i < 30; i++) {
-                    effects.push(new Effect(projectile.x, projectile.y, Math.random() * 2, 'red',
-                        {
-                            x: (Math.random() + 0.1) * (Math.random() * 10), y: (Math.random() - (Math.random() * 10))
-                        }))
-                }
+        projectiles.forEach((projectile, index) => {
+            projectile.update()
+            //removing projectiles after leaving canvas
+            if (projectile.x + projectile.radius < 0 ||
+                projectile.x - projectile.radius > canvas.width ||
+                projectile.y + projectile.radius < 0 ||
+                projectile.y - projectile.radius > canvas.height
+            ) {
                 setTimeout(() => {
-                    enemies.splice(index, 1)
-                    projectiles.splice(projectileIndex, 1)
+                    projectiles.splice(index, 1)
                 }, 0)
             }
         })
-    })
+        //creating enemies
+        enemies.forEach((enemy, index) => {
+            drawSprite(enemySprite, enemy.width * enemy.frameX, enemy.height * enemy.frameY, enemy.width, enemy.height, enemy.x, enemy.y, enemy.width, enemy.height)
+            enemy.handleAlienFrame()
+            enemy.update()
+
+            //end game 
+            if (player.x < enemy.x + enemy.width && player.x + player.width > enemy.x &&
+                player.y < enemy.y + enemy.height && player.y + player.height > enemy.y) {
+                cancelAnimationFrame(animationId)
+                start.style.display = ''
+                pts.innerHTML = score
+                gameOverSound.play()
+                globalCounter = 0
+                clearInterval(t)
+                window.removeEventListener('click', shootBullets)
+
+            }
+
+            projectiles.forEach((projectile, projectileIndex) => {
+                //removing enemies and projectiles
+                if (projectile.x < enemy.x + enemy.width && projectile.x + projectile.radius > enemy.x &&
+                    projectile.y < enemy.y + enemy.height && projectile.y + projectile.radius > enemy.y) {
+                    //increasing score
+                    score += 50
+                    scoreEl.innerHTML = score
+
+
+                    //creating effects
+                    for (let i = 0; i < 30; i++) {
+                        effects.push(new Effect(projectile.x, projectile.y, Math.random() * 2, 'red',
+                            {
+                                x: (Math.random() + 0.1) * (Math.random() * 10), y: (Math.random() - (Math.random() * 10))
+                            }))
+                    }
+                    setTimeout(() => {
+                        enemies.splice(index, 1)
+                        projectiles.splice(projectileIndex, 1)
+                    }, 0)
+                }
+            })
+        })
+    }
 }
-// }
 
 //pressing keys down listener
 window.addEventListener('keydown', function (e) {
@@ -312,7 +310,7 @@ window.addEventListener('keyup', function (e) {
 
 startGameEl.addEventListener('click', () => {
     init()
-    animate()
+    startAnimation(500)
     createEnemies()
     gameStartSound.play()
     start.style.display = 'none'
