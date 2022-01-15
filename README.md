@@ -14,3 +14,7 @@ Your goal is to remove as many aliens as possible. The game will get progressiev
 - Players can keep track of their score at the top left of the game
 - There is a persistent high score for you to check your progess
 - Aliens will chase you to the end of time, take them out as quickly as possible
+
+
+# PLAY NOW
+https://gnehsheng.github.io/Cowboys-vs-Aliens/
