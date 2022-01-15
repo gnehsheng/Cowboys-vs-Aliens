@@ -2,7 +2,7 @@
 
 A simple point and shoot arcade-style game!
 
-## HOW TO PLAY
+### HOW TO PLAY
 
 Arrow keys for movement
 Mouse leftclick for firing
