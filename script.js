@@ -210,7 +210,7 @@ function resetEnemies() {
     createEnemies()
     //visual indicator for increased spawnrate of enemies
     document.getElementById("canvas").className = "flashing"
-    //to put warning sound
+    increaseLevelSound.play()
     setTimeout(() => {
         document.getElementById("canvas").className = ''
     }, 1200)
