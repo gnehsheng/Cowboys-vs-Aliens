@@ -20,6 +20,7 @@ let t
 let fps, fpsInterval, startTime, now, then, elapsed
 let animationId
 let score = 0
+let frame = 0
 
 const gameStartSound = new Audio(src = 'sounds/gamestart.wav')
 const gameOverSound = new Audio(src = 'sounds/gameover.wav')
@@ -27,6 +28,7 @@ const increaseLevelSound = new Audio(src = 'sounds/levelsound.wav')
 gameOverSound.volume = 0.4
 gameStartSound.volume = 0.4
 increaseLevelSound.volume = 0.4
+increaseLevelSound.playbackRate = 1.5
 
 function gunShot() {
     let sound = new Audio(src = 'sounds/gunshot.mp3')
@@ -82,10 +84,6 @@ class Player {
         }
     }
 
-    draw() {
-        ctx.drawImage()
-    }
-
     resetCoords() {
         this.x = canvas.width / 2
         this.y = canvas.height / 2
@@ -114,8 +112,15 @@ class Player {
         }
     }
     handlePlayerFrame() {
-        if (this.frameX < 3 && this.moving) this.frameX++
-        else this.frameX = 0
+        if (this.frameX < 3 && this.moving && frame % 3 === 0) {
+           if(this.frameX < this.maxFrame){
+            this.frameX++
+           } 
+        }else {
+            this.frameX = this.minFrame
+        }
+
+        ctx.drawImage(playerSprite, player.width * player.frameX, player.height * player.frameY, player.width, player.height, player.x, player.y, player.width, player.height)
     }
 }
 
@@ -175,15 +180,26 @@ class Enemy {
         this.height = 48
         this.frameX = 0
         this.frameY = 0
+        this.minFrame = 0
+        this.maxFrame = 3
         this.type = true
         this.x = Math.random() < 0.5 ? 0 - this.width : canvas.width + this.width
         this.y = Math.random() < 0.5 ? 0 - this.height : canvas.height + this.height
         this.speed = Math.random() * 0.9 + 0.3
     }
     handleAlienFrame() {
-        if (this.frameX < 3) this.frameX++
-        else this.frameX = 0
+        // if (this.frameX < 3) this.frameX++
+        // else this.frameX = 0
+
+        if (this.frameX < 3 && frame % 3 === 0) {
+            if(this.frameX < this.maxFrame){
+             this.frameX++
+            } 
+         }else {
+             this.frameX = this.minFrame
+         }
     }
+
     update() {
         //chasing logic
         let dx = player.x - this.x
@@ -274,7 +290,7 @@ window.addEventListener('keyup', function (e) {
 //when starting game
 startGameEl.addEventListener('click', () => {
     init()
-    startAnimation(100)
+    startAnimation(500)
     createEnemies()
     gameStartSound.play()
     start.style.display = 'none'
@@ -289,6 +305,7 @@ function drawSprite(img, sX, sY, sW, sH, dX, dY, dW, dH) {
 }
 
 function animate() {
+    frame++
     animationId = requestAnimationFrame(animate)
     now = Date.now()
     elapsed = now - then
@@ -301,7 +318,6 @@ function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height)
 
         //creating players
-        drawSprite(playerSprite, player.width * player.frameX, player.height * player.frameY, player.width, player.height, player.x, player.y, player.width, player.height)
         player.movement()
         player.handlePlayerFrame()
 
