@@ -5,51 +5,88 @@ body {
   image-rendering: crisp-edges;
   margin: 0;
   padding: 0;
-  height: 90vh;
-  width: 90vw;
-  /* overflow: hidden; */
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
   background-image: url('images/background.png');
 }
 
-.score{
-color: brown;
-font-size: 20px;
-margin: 20px;
-position: absolute
+.score {
+  color: brown;
+  font-size: 20px;
+  margin: 20px;
+  position: absolute
 }
 
-.start{
-margin: auto;
-text-align: center;
-background-color: white;
-border-radius: 5px;
-font-size: 25px;
-padding: 30px;
-height: 250px;
-width: 600px;
-position: absolute;
-top: 50%;
-left: 50%;
-margin-right: -50%;
-transform: translate(-50%, -50%);                  
+.start {
+  text-align: center;
+  background-color: #07252d;
+  height: 100%;
+  width: 100%;
+  position: absolute;
 }
 
-.pts{
+#title {
+  margin-top: 100px;
+}
+
+.pts {
   font-weight: bold;
+  font-size: 100px;
+  color: #fff;
+  margin: 100px 0 10px 0;
+  padding: 0;
 }
 
-#startGameEl{
-background-color: rgb(59, 191, 224);
-color: white;
-border: none;
-border-radius: 50px;
-font-size: 20px;
-padding: 15px 150px;
+#ptsTag {
+  color: #fff;
+  font-size: 25px;
+  margin: 0 0 50px 0;
 }
 
-.difficulty{
-  display: inline-block;
-  margin: 0 auto;
-  width: max-content;
+#startGameEl {
+  background-color: rgb(59, 191, 224);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 20px;
+  padding: 15px 150px;
+  margin-bottom: 30px;
+}
+
+#highScore {
+  color: white;
+  font-size: 40px;
+  font-weight: medium;
+  letter-spacing: 10px;
+  padding: 40px;
+  text-transform: uppercase;
+  text-align: center;
+  animation: animate 2.5s linear;
+  animation-iteration-count: infinite;
+  text-shadow: 0px 0px 20px #fff,
+    0px 0px 30px #fff,
+    0px 0px 10px #fff,
+    0px 0px 1px #fff;
+}
+
+#highScoreEl {
+  font-size: 70px;
+  padding: 10px;
+}
+
+@keyframes animate {
+  0%, 15%, 25%, 65%, 95% {
+    color: #111;
+    text-shadow: none;
+  }
+
+  10%, 20%, 31%, 60%, 100% {
+    color: #fff;
+    text-shadow: 0px 0px 20px #fff,
+      0px 0px 30px #fff,
+      0px 0px 10px #fff,
+      0px 0px 1px #fff;
+  }
 
 }
