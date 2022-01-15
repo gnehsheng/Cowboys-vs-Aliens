@@ -23,7 +23,7 @@ let score = 0
 
 const gameStartSound = new Audio(src = 'sounds/gamestart.wav')
 const gameOverSound = new Audio(src = 'sounds/gameover.wav')
-const increaseLevelSound = new Audio(src='sounds/levelsound.wav')
+const increaseLevelSound = new Audio(src = 'sounds/levelsound.wav')
 gameOverSound.volume = 0.4
 gameStartSound.volume = 0.4
 increaseLevelSound.volume = 0.4
@@ -35,16 +35,16 @@ function gunShot() {
     sound.volume = 0.4
 }
 
-function enemyDeathSound(){
+function enemyDeathSound() {
     const sound = new Audio(src = 'sounds/enemydeath.wav')
     sound.load()
     sound.play()
     sound.volume = 0.3
 }
 
-const currentScore = document.querySelector('.score')  
-currentScore.addEventListener('click', (event) => {  
-  event.preventDefault()
+const currentScore = document.querySelector('.score')
+currentScore.addEventListener('click', (event) => {
+    event.preventDefault()
 })
 
 function init() {
@@ -208,7 +208,12 @@ function createEnemies() {
 function resetEnemies() {
     clearInterval(t)
     createEnemies()
-
+    //visual indicator for increased spawnrate of enemies
+    document.getElementById("canvas").className = "flashing"
+    //to put warning sound
+    setTimeout(() => {
+        document.getElementById("canvas").className = ''
+    }, 1200)
 }
 
 //firing projectiles 
