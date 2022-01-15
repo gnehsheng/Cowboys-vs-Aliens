@@ -67,8 +67,23 @@ class Player {
         this.height = 48
         this.frameX = 0
         this.frameY = 0
+        this.minFrame = 0
+        this.maxFrame = 3
         this.speed = 8
         this.moving = false
+    }
+    update() {
+        if (frame % 4 === 0) {
+            if (this.frameX < this.maxFrame) {
+                this.frameX++
+            } else {
+                this.frameX = this.minFrame
+            }
+        }
+    }
+
+    draw() {
+        ctx.drawImage()
     }
 
     resetCoords() {
