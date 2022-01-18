@@ -21,6 +21,8 @@ let fps, fpsInterval, startTime, now, then, elapsed
 let animationId
 let score = 0
 let frame = 0
+let foilages = []
+let slowSpeed = false
 
 const gameStartSound = new Audio(src = 'sounds/gamestart.wav')
 const gameOverSound = new Audio(src = 'sounds/gameover.wav')
@@ -51,6 +53,7 @@ currentScore.addEventListener('click', (event) => {
 
 function init() {
     images = []
+    foilages = []
     enemies = []
     projectiles = []
     effects = []
@@ -58,6 +61,7 @@ function init() {
     scoreEl.innerHTML = score
     pts.innerHTML = score
     player.resetCoords()
+
 }
 
 //player class
@@ -71,7 +75,7 @@ class Player {
         this.frameY = 0
         this.minFrame = 0
         this.maxFrame = 3
-        this.speed = 8
+        this.speed = 6
         this.moving = false
     }
     update() {
@@ -113,10 +117,10 @@ class Player {
     }
     handlePlayerFrame() {
         if (this.frameX < 3 && this.moving && frame % 3 === 0) {
-           if(this.frameX < this.maxFrame){
-            this.frameX++
-           } 
-        }else {
+            if (this.frameX < this.maxFrame) {
+                this.frameX++
+            }
+        } else {
             this.frameX = this.minFrame
         }
 
@@ -192,12 +196,12 @@ class Enemy {
         // else this.frameX = 0
 
         if (this.frameX < 3 && frame % 3 === 0) {
-            if(this.frameX < this.maxFrame){
-             this.frameX++
-            } 
-         }else {
-             this.frameX = this.minFrame
-         }
+            if (this.frameX < this.maxFrame) {
+                this.frameX++
+            }
+        } else {
+            this.frameX = this.minFrame
+        }
     }
 
     update() {
@@ -210,6 +214,30 @@ class Enemy {
         //enemy sprite frame facing
         this.frameY = (dx >= dy) ? dx > 0 ? 2 : 1 : dy > 0 ? 0 : 3
     }
+}
+
+class Foilage {
+    constructor() {
+        this.random = Math.random()
+        this.width = 49 + 49 * this.random
+        this.height = 30 + 30 * this.random
+        this.x = Math.random() * canvas.width - this.width
+        this.y = Math.random() * canvas.height - this.height
+    }
+    draw() {
+        ctx.drawImage(foilageSprite, this.x, this.y, this.width, this.height)
+    }
+}
+
+const foilageSprite = new Image()
+foilageSprite.src = 'images/foilage.png'
+
+function createFoilage() {
+    for (i = 0; i <= 15; i++) {
+        let foilageImg = new Foilage()
+        foilages.push(foilageImg)
+    }
+
 }
 
 const player = new Player()
@@ -292,6 +320,7 @@ startGameEl.addEventListener('click', () => {
     init()
     startAnimation(500)
     createEnemies()
+    createFoilage()
     gameStartSound.play()
     start.style.display = 'none'
 
@@ -350,7 +379,7 @@ function animate() {
             drawSprite(enemySprite, enemy.width * enemy.frameX, enemy.height * enemy.frameY, enemy.width, enemy.height, enemy.x, enemy.y, enemy.width, enemy.height)
             enemy.handleAlienFrame()
             enemy.update()
-
+            slowSpeed = false
             //end game 
             if (player.x < enemy.x + enemy.width && player.x + player.width > enemy.x &&
                 player.y < enemy.y + enemy.height && player.y + player.height > enemy.y) {
@@ -391,5 +420,17 @@ function animate() {
                 }
             })
         })
+        foilages.forEach((foilageImg) => {
+            foilageImg.draw()
+            if (foilageImg.x < player.x + player.width && foilageImg.x + foilageImg.width > player.x &&
+                foilageImg.y < player.y + player.height && foilageImg.y + foilageImg.height > player.y) {
+                slowSpeed = true
+            }
+        })
+        if (slowSpeed) {
+            player.speed = 3
+        } else {
+            player.speed = 6
+        }
     }
 }

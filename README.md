@@ -7,7 +7,7 @@ A simple point and shoot arcade-style game!
 Arrow keys for movement
 Mouse leftclick for firing
 
-Your goal is to remove as many aliens as possible. The game will get progressievly more difficult with faster spawning enemies, try to last as long as you can!
+Your goal is to remove as many aliens as possible. The game will get progressively more difficult with faster spawning enemies, try to last as long as you can!
 
 ### FEATURES
 
@@ -15,6 +15,7 @@ Your goal is to remove as many aliens as possible. The game will get progressiev
 - Players can keep track of their score at the top left of the game
 - There is a persistent high score for you to check your progess
 - Aliens will chase you to the end of time, take them out as quickly as possible
+- Randomly generated bushes will slow you down, so avoid them!
 
 
 # PLAY NOW
