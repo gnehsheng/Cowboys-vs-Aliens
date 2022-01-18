@@ -18,6 +18,13 @@ body {
   position: absolute
 }
 
+#instructions{
+width: 100px;
+height: 100px;
+color: black;
+position: absolute;
+}
+
 #title {
   margin-top: 100px;
 }

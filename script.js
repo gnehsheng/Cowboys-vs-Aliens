@@ -233,7 +233,7 @@ const foilageSprite = new Image()
 foilageSprite.src = 'images/foilage.png'
 
 function createFoilage() {
-    for (i = 0; i <= 15; i++) {
+    for (i = 0; i <= 20; i++) {
         let foilageImg = new Foilage()
         foilages.push(foilageImg)
     }
