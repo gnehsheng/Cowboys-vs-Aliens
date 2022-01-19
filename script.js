@@ -17,7 +17,8 @@ let projectiles = []
 let effects = []
 let keys = []
 let t
-let fps, fpsInterval, startTime, now, then, elapsed
+let fps = 30
+let fpsInterval, startTime, now, then, elapsed
 let animationId
 let score = 0
 let frame = 0
@@ -116,7 +117,7 @@ class Player {
         }
     }
     handlePlayerFrame() {
-        if (this.frameX < 3 && this.moving && frame % 3 === 0) {
+        if (this.moving && frame % 5 === 0) {
             if (this.frameX < this.maxFrame) {
                 this.frameX++
             }
@@ -192,10 +193,7 @@ class Enemy {
         this.speed = Math.random() * 0.9 + 0.3
     }
     handleAlienFrame() {
-        // if (this.frameX < 3) this.frameX++
-        // else this.frameX = 0
-
-        if (this.frameX < 3 && frame % 3 === 0) {
+        if (this.frameX < 3 && frame % 5 === 0) {
             if (this.frameX < this.maxFrame) {
                 this.frameX++
             }
@@ -245,7 +243,7 @@ const playerSprite = new Image()
 playerSprite.src = 'images/cowboy.png'
 
 const enemySprite = new Image()
-enemySprite.src = 'images/alien.png'
+enemySprite.src = 'images/death.png'
 
 function createEnemies() {
     t = setInterval(() => {
@@ -261,7 +259,7 @@ function createEnemies() {
             enemy.y = Math.random() < 0.5 ? 0 - enemy.height : canvas.height + enemy.height
         }
         enemies.push(enemy)
-    }, globalCounter < 500 ? 800 : globalCounter > 501 && globalCounter < 1500 ? 500 : 150)
+    }, globalCounter < 500 ? 800 : globalCounter > 500 && globalCounter < 1500 ? 500 : 150)
 }
 
 function resetEnemies() {
@@ -291,7 +289,7 @@ function shootBullets(e) {
 }
 
 function startAnimation(fps) {
-    fpsInterval = 1500 / fps
+    fpsInterval = 1000 / fps
     then = Date.now()
     startTime = then
     animate()
@@ -318,7 +316,7 @@ window.addEventListener('keyup', function (e) {
 //when starting game
 startGameEl.addEventListener('click', () => {
     init()
-    startAnimation(500)
+    startAnimation(60)
     createEnemies()
     createFoilage()
     gameStartSound.play()
