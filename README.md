@@ -24,7 +24,7 @@ Your goal is to remove as many aliens as possible. The game will get progressive
 https://gnehsheng.github.io/Cowboys-vs-Aliens/
 
 
-# Sreengrabs
+# Screengrabs
 ![cowboys-vs-aliens](https://github.com/gnehsheng/Cowboys-vs-Aliens/blob/main/images/readme-01-03.jpg)
 <br>
 ![cowboys-vs-aliens](https://github.com/gnehsheng/Cowboys-vs-Aliens/blob/main/images/readme-01-01.jpg)
