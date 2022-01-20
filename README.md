@@ -25,4 +25,6 @@ https://gnehsheng.github.io/Cowboys-vs-Aliens/
 
 
 # Sreengrabs
-![cowboys-vs-aliens]()
+![cowboys-vs-aliens](https://github.com/gnehsheng/Cowboys-vs-Aliens/blob/main/images/readme-01-01.jpg)
+<br>
+![cowboys-vs-aliens](https://github.com/gnehsheng/Cowboys-vs-Aliens/blob/main/images/readme-01-03.jpg)
