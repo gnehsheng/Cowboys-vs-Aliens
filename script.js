@@ -117,7 +117,7 @@ class Player {
         }
     }
     handlePlayerFrame() {
-        if (this.moving && frame % 5 === 0) {
+        if (this.moving && frame % 6 === 0) {
             if (this.frameX < this.maxFrame) {
                 this.frameX++
             }
@@ -316,7 +316,7 @@ window.addEventListener('keyup', function (e) {
 //when starting game
 startGameEl.addEventListener('click', () => {
     init()
-    startAnimation(60)
+    startAnimation(120)
     createEnemies()
     createFoilage()
     gameStartSound.play()

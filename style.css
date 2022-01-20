@@ -14,19 +14,23 @@ body {
 .score {
   color: brown;
   font-size: 20px;
-  margin: 20px;
+  margin-left: auto;
+  margin-right: auto;
   position: absolute
 }
 
-#instructions{
-width: 100px;
-height: 100px;
-color: black;
-position: absolute;
+#title {
+  margin-top: 50px;
 }
 
-#title {
-  margin-top: 100px;
+#instructions {
+  color: white;
+  text-align: center;
+  margin-top: 50px;
+  margin-left: 30px;
+  font-size: 120%;
+  line-height: 5px;
+  
 }
 
 .start {
@@ -74,7 +78,7 @@ position: absolute;
   font-weight: bold;
   font-size: 100px;
   color: #fff;
-  margin: 100px 0 10px 0;
+  margin: 50px 0 10px 0;
   padding: 0;
 }
 
