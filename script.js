@@ -37,7 +37,7 @@ function gunShot() {
     let sound = new Audio(src = 'sounds/gunshot.mp3')
     sound.load()
     sound.play()
-    sound.volume = 0.4
+    sound.volume = 0.25
 }
 
 function enemyDeathSound() {
@@ -231,7 +231,7 @@ const foilageSprite = new Image()
 foilageSprite.src = 'images/foilage.png'
 
 function createFoilage() {
-    for (i = 0; i <= 20; i++) {
+    for (i = 0; i <= 30; i++) {
         let foilageImg = new Foilage()
         foilages.push(foilageImg)
     }
@@ -259,7 +259,8 @@ function createEnemies() {
             enemy.y = Math.random() < 0.5 ? 0 - enemy.height : canvas.height + enemy.height
         }
         enemies.push(enemy)
-    }, globalCounter < 500 ? 800 : globalCounter > 500 && globalCounter < 1500 ? 500 : 150)
+        //increasing game difficulty
+    }, globalCounter < 750 ? 1000 : globalCounter > 500 && globalCounter < 1500 ? 500 : 150)
 }
 
 function resetEnemies() {
@@ -340,7 +341,7 @@ function animate() {
         then = now - (elapsed % fpsInterval)
 
         globalCounter++
-        globalCounter === 500 ? resetEnemies() : globalCounter === 1500 ? resetEnemies() : null
+        globalCounter === 750 ? resetEnemies() : globalCounter === 1500 ? resetEnemies() : null
 
         ctx.clearRect(0, 0, canvas.width, canvas.height)
 

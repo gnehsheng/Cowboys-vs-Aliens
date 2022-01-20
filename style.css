@@ -20,14 +20,14 @@ body {
 }
 
 #title {
-  margin-top: 50px;
+  margin-top: 30px;
 }
 
 #instructions {
   color: white;
   text-align: center;
   margin-top: 50px;
-  font-size: 120%;
+  font-size: 110%;
   line-height: 5px;
   
 }

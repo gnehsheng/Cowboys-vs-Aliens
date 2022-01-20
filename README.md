@@ -11,12 +11,18 @@ Your goal is to remove as many aliens as possible. The game will get progressive
 
 ### FEATURES
 
+- Randomly generated obstacles that will slow you down if you run through them
 - Collision detection logic for removing enemies and ending the game
-- Players can keep track of their score at the top left of the game
+- Players can keep track of their score at the top left during the game
 - There is a persistent high score for you to check your progess
 - Aliens will chase you to the end of time, take them out as quickly as possible
+- There will be increasing difficulty at set times, more enemies will start spawning!
 - Randomly generated bushes will slow you down, so avoid them!
 
 
 # PLAY NOW
 https://gnehsheng.github.io/Cowboys-vs-Aliens/
+
+
+# Sreengrabs
+![cowboys-vs-aliens]()
